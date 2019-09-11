@@ -1,1 +1,1 @@
-#this file analyzes the data
+#the files in this folder analyzes the data
