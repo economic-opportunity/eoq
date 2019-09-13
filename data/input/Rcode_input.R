@@ -38,3 +38,4 @@ colnames(cps)[colnames(cps)=="YEAR"] <- "year"
 finalvars<-c("state","county","year")
 cps_final<-cps[finalvars]
 detach(cps)
+
