@@ -29,10 +29,12 @@ attach(cps)
 #clean data
 cps<-cps[ which(STATEFIP=="6" & nchar(COUNTY)>=4) , ]
 cps$STATEFIP <- sub("^", "0", cps$STATEFIP)
-cps$COUNTY <- sub("^", "0", cps$COUNTY)
+cps$COUNTY <- substr(cps$COUNTY,2,4)
 #rename variables
-colnames(cps)[colnames(cps)=="STATEFIP"] <- "STATE"
+colnames(cps)[colnames(cps)=="STATEFIP"] <- "state"
+colnames(cps)[colnames(cps)=="COUNTY"] <- "county"
+colnames(cps)[colnames(cps)=="YEAR"] <- "year"
 #save final data
-finalvars<-c("STATE","COUNTY")
+finalvars<-c("state","county","year")
 cps_final<-cps[finalvars]
 detach(cps)
