@@ -79,6 +79,8 @@ clean_qwi_se <- raw_qwi_se %>%
 # quick exploration of QWI SE dataset
 glimpse(clean_qwi_se)
 skim(clean_qwi_se)
+write_csv(clean_qwi_se, "~/Google Drive/EOQ/Data/QWI/qwi_se_quarterly.csv")
+
 
 # get industry breakdown --------------------------------------------------
 
