@@ -1,44 +1,9 @@
-library(tidyverse)
-library(censusapi)
-library(skimr)
-library(janitor)
 
-# functions ---------------------------------------------------------------
-
-tidy_get_census <- function(...) {
-  getCensus(
-    ...
-  ) %>% 
-    as_tibble()
-}
-
-as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
-  df %>% 
-    mutate( 
-      year_qtr  = zoo::as.yearqtr({{variable}}, format = format),
-      date      = zoo::as.Date(year_qtr) 
-    )
-}
-
-
-get_qwi_metrics <- function(name = "timeseries/qwi/se", 
-                            vars = c(qwi_numeric_variables, "education"), 
-                            region = "county:*", 
-                            regionin = "state:06",
-                            time = "from 2000 to 2018", ...) {
-  tidy_get_census(
-    name = name,
-    vars = vars,
-    region = region,
-    regionin = regionin,
-    time = time,
-    ...
-  )
-}
-
-safely_get_qwi_metrics <- safely(get_qwi_metrics)
-
-
+# load libraries ---------------------------------------------------------
+library(tidyverse) # the one and only tidyverse
+library(censusapi) # access Census data via API
+library(skimr) # summarize data
+library(janitor) # cleaning data and column names
 
 # apis --------------------------------------------------------------------
 
@@ -47,6 +12,7 @@ apis <- listCensusApis() %>%
 
 View(apis)
 skim(apis)
+
 
 # data --------------------------------------------------------------------
 
@@ -144,4 +110,4 @@ valid_qwi_by_industry <- qwi_by_industry %>%
   filter(df %>% map(is_tibble) %>% map_lgl(any)) %>% 
   unnest(df)
 
-write_csv(valid_qwi_by_industry, "~/Dropbox/EOQ/Data/QWI/qwi_se_by_industry.csv.gz")
+write_csv(valid_qwi_by_industry, "~/Google Drive/EOQ/Data/QWI/qwi_se_by_industry.csv.gz")
