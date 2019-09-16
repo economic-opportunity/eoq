@@ -1,44 +1,13 @@
-library(tidyverse)
-library(censusapi)
-library(skimr)
-library(janitor)
 
-# functions ---------------------------------------------------------------
+# load libraries ---------------------------------------------------------
+library(tidyverse) # the one and only tidyverse
+library(censusapi) # access Census data via API
+library(skimr) # summarize data
+library(janitor) # cleaning data and column names
 
-tidy_get_census <- function(...) {
-  getCensus(
-    ...
-  ) %>% 
-    as_tibble()
-}
+# source funcs ------------------------------------------------------------
 
-as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
-  df %>% 
-    mutate( 
-      year_qtr  = zoo::as.yearqtr({{variable}}, format = format),
-      date      = zoo::as.Date(year_qtr) 
-    )
-}
-
-
-get_qwi_metrics <- function(name = "timeseries/qwi/se", 
-                            vars = c(qwi_numeric_variables, "education"), 
-                            region = "county:*", 
-                            regionin = "state:06",
-                            time = "from 2000 to 2018", ...) {
-  tidy_get_census(
-    name = name,
-    vars = vars,
-    region = region,
-    regionin = regionin,
-    time = time,
-    ...
-  )
-}
-
-safely_get_qwi_metrics <- safely(get_qwi_metrics)
-
-
+source("R/funcs.R")
 
 # apis --------------------------------------------------------------------
 
@@ -47,6 +16,7 @@ apis <- listCensusApis() %>%
 
 View(apis)
 skim(apis)
+
 
 # data --------------------------------------------------------------------
 
@@ -84,21 +54,21 @@ write_csv(clean_qwi_se, "~/Google Drive/EOQ/Data/QWI/qwi_se_quarterly.csv")
 # get industry breakdown --------------------------------------------------
 
 # get all variables by sex and education from census API
-raw_qwi_se_industry_51 <- tidy_get_census(
-  name = "timeseries/qwi/se", 
-  vars = c(qwi_numeric_variables, "education"), 
-  region = "county:*", # get all counties
-  regionin = "state:06", # CA
-  time = "from 2000 to 2018", # get data from 2000 to 2018
-  sex = "1", # get both male and female
-  sex = "2", # get both male and female
-  industry = 51
-) 
-
-raw_qwi_se_industry_51 <- get_qwi_metrics(
-  sex = "1", sex = "2",
-  industry = 51
-)
+# raw_qwi_se_industry_51 <- tidy_get_census(
+#   name = "timeseries/qwi/se", 
+#   vars = c(qwi_numeric_variables, "education"), 
+#   region = "county:*", # get all counties
+#   regionin = "state:06", # CA
+#   time = "from 2000 to 2018", # get data from 2000 to 2018
+#   sex = "1", # get both male and female
+#   sex = "2", # get both male and female
+#   industry = 51
+# ) 
+# 
+# raw_qwi_se_industry_51 <- get_qwi_metrics(
+#   sex = "1", sex = "2",
+#   industry = 51
+# )
 
 # https://www.census.gov/eos/www/naics/2017NAICS/2017_NAICS_Structure_Summary_Table.xlsx
 industries <- tibble::tribble(
@@ -130,8 +100,14 @@ industries <- tibble::tribble(
 qwi_by_industry <- industries %>% 
   mutate(
     df = map(sector, ~ {
-      Sys.sleep(10)
+      # Print intial collection status
+      print(glue::glue("Collecting data for {x}", x = .x))
+      # Get QWI metrics for given sector, or catch error
       safely_get_qwi_metrics(industry = .x, sex = "1", sex = "2")
+      # Print finished status
+      print(glue::glue("Finshed collecting data for {x}", x = .x))
+      # 10 second break b/t calls for responsible api usage
+      Sys.sleep(10)
     }
     )
   ) %>% 
@@ -142,6 +118,7 @@ valid_qwi_by_industry <- qwi_by_industry %>%
   unnest(df) %>% 
   # filtering on actual returned tibbles (not errors or null values)
   filter(df %>% map(is_tibble) %>% map_lgl(any)) %>% 
+  # unnesting list column again
   unnest(df)
 
-write_csv(valid_qwi_by_industry, "~/Dropbox/EOQ/Data/QWI/qwi_se_by_industry.csv.gz")
+write_csv(valid_qwi_by_industry, "~/Google Drive/EOQ/Data/QWI/qwi_se_by_industry.csv.gz")
