@@ -1,8 +1,7 @@
 #---------------------------------------------------------------------------------------------------------#
-#THIS SCRIPT PRODUCES THE ANLAYSIS DATASET
-#test commit
+#THIS SCRIPT COMBINES INPUT DATA TO PRODUCE THE ANLAYSIS DATASET
 #---------------------------------------------------------------------------------------------------------#
-#clear all#clear all
+#clear all
 rm(list = ls())
 
 #define working directory (personalize)
@@ -14,7 +13,6 @@ code_dir<-"EOQ/Code/MS/eoq/data/input"
 cps_dir<-"EOQ/Data/CPS"
 bls_dir<-"EOQ/Data/BLS"
 qwi_dir<-"EOQ/Data/QWI"
-
 intermediate_dir<-"/EOQ/Data/intermediate"
 
 #set working directory
@@ -26,9 +24,11 @@ install.packages('ipumsr')
 install.packages("tidyverse")
 
 
-bls<-read.csv(file=paste(file.path(personal_dir,bls_dir),"/California_All_Counties_Unemployment_Rate_2010-2019.csv",sep=""),header=TRUE, sep=",")
 
-qwi<-read.csv(file=paste(file.path(personal_dir,qwi_dir),"/qwi_se_quarterly.csv",sep=""),header=TRUE, sep=",",colClasses=c(county="character",state="character"))
+cps<-read.csv(file=paste(file.path(personal_dir,intermediate_dir),"/cps.csv",sep=""),header=TRUE, sep=",",colClasses=c(county="character",state="character"))
 
+bls<-read.csv(file=paste(file.path(personal_dir,intermediate_dir),"/bls.csv",sep=""),header=TRUE, sep=",",colClasses=c(county="character",state="character"))
 
+all = dplyr::right_join(cps,bls,by=c("state","county","year"))
 
+head(all)

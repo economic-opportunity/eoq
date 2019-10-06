@@ -11,10 +11,12 @@ personal_dir<-"/Users/matthewstaiger/Google Drive EOQ"
 code_dir<-"EOQ/Code/MS/eoq/data/input"
 #defin directories for data
 cps_dir<-"EOQ/Data/CPS"
-intermediate_dir<-"EOQ/Data/intermediate"
+bls_dir<-"EOQ/Data/BLS"
+qwi_dir<-"EOQ/Data/QWI"
+intermediate_dir<-"/EOQ/Data/intermediate"
 #define directory for R packages
 packages_dir<-"EOQ/Code/MS/eoq/renv"
-  
+
 #set working directory
 setwd(file.path(personal_dir,code_dir))
 getwd()
@@ -46,7 +48,31 @@ cps<-dplyr::rename(cps,age=AGE)
 cps<-dplyr::rename(cps,sex=SEX)
 cps<-dplyr::rename(cps,race=RACE)
 #save final data
-finalvars<-c("state","county","year","month","incwage","occ","ind","age","sex","race")
+finalvars<-c("state","county","year","month","incwage","occ","ind","age","sex","race","CPSIDP")
 cps_final<-cps[finalvars]
-write.csv(cps_final, file = paste(file.path(personal_dir,intermediate_dir),"/cps.csv",sep=""))
+write.csv(cps_final, file = paste(file.path(personal_dir,intermediate_dir),"/cps.csv",sep=""),row.names=FALSE)
 detach(cps)
+
+
+#---------------------------------------------------------------------------------------------------------#
+#UNEMPLOYMENT DATA FROM BLS
+#---------------------------------------------------------------------------------------------------------#
+#bring in data
+bls<-read.csv(file=paste(file.path(personal_dir,bls_dir),"/annual averages/laucnty18.csv",sep=""),header=TRUE, sep=",",colClasses=c(county="character",state="character"))
+attach(bls)
+bls<-bls[ which(state=="06") , ]
+#save final data
+finalvars<-c("state","county","year","unemployment_rate")
+bls_final<-bls[finalvars]
+write.csv(bls_final, file = paste(file.path(personal_dir,intermediate_dir),"/bls.csv",sep=""),row.names=FALSE)
+detach(bls)
+
+
+#---------------------------------------------------------------------------------------------------------#
+#QWI
+#---------------------------------------------------------------------------------------------------------#
+#bring in data
+qwi<-read.csv(file=paste(file.path(personal_dir,qwi_dir),"/qwi_se_quarterly.csv",sep=""),header=TRUE, sep=",",colClasses=c(county="character",state="character"))
+
+#save final data
+finalvars<-c("state","county","year","HirAEndR")
