@@ -75,7 +75,7 @@ ggplot(data = filter(incwage_3, INCWAGE < 200000)) + # data filtered
 
 # show median income by 'education_clean' value
 ggplot(incwage_3) +
-  geom_bar(aes(education_clean, INCWAGE), stat = 'summary', fun.y = 'median')
+  geom_bar(aes(education_clean_description, INCWAGE), stat = 'summary', fun.y = 'median')
 
 ########################################################################-
 #### Select a few columns and write to csv ####
