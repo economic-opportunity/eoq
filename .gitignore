@@ -4,5 +4,5 @@
 .Ruserdata
 packrat/lib*/
 .DS_Store
-
 data/*.rda
+renv/library
