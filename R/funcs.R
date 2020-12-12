@@ -1,6 +1,14 @@
 
 # functions ---------------------------------------------------------------
 
+#' Title
+#'
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 tidy_get_census <- function(...) {
   getCensus(
     ...
@@ -8,6 +16,17 @@ tidy_get_census <- function(...) {
     as_tibble()
 }
 
+#' Title
+#'
+#' @param df 
+#' @param variable 
+#' @param format 
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
   df %>% 
     mutate( 
@@ -17,6 +36,19 @@ as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
 }
 
 
+#' Title
+#'
+#' @param name 
+#' @param vars 
+#' @param region 
+#' @param regionin 
+#' @param time 
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_qwi_metrics <- function(name = "timeseries/qwi/se", 
                             vars = c(qwi_numeric_variables, "education"), 
                             region = "county:*", 
@@ -32,5 +64,16 @@ get_qwi_metrics <- function(name = "timeseries/qwi/se",
   )
 }
 
-safely_get_qwi_metrics <- purrr::safely(get_qwi_metrics)
+#' Title
+#'
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+safely_get_qwi_metrics <- function(...){
+  purrr::safely(get_qwi_metrics(...)) 
+}
+
 
