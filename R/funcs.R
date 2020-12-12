@@ -32,5 +32,5 @@ get_qwi_metrics <- function(name = "timeseries/qwi/se",
   )
 }
 
-safely_get_qwi_metrics <- safely(get_qwi_metrics)
+safely_get_qwi_metrics <- purrr::safely(get_qwi_metrics)
 

@@ -1,0 +1,27 @@
+Package: eoq
+Title: Economic Opportunity Project Core Functions
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Seamus",
+           family = "McKinsey",
+           role = c("aut", "cre"),
+           email = "first.last@example.com")
+Description: What the package does (one paragraph).
+License: 
+    Copyright (C) Economic Opportunity Project - All Rights Reserved
+    Propietary and Confidential
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Suggests: 
+    testthat
+Imports: 
+    dplyr,
+    magrittr,
+    stats,
+    stringr,
+    glue,
+    tibble
+Depends: 
+    R (>= 2.10)

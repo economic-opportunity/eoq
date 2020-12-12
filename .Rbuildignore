@@ -1,0 +1,9 @@
+^renv$
+^renv\.lock$
+^eoq\.Rproj$
+^\.Rproj\.user$
+^\.circleci$
+^\.circleci/config\.yml$
+^codecov\.yml$
+^\.covrignore$
+^data-raw$
