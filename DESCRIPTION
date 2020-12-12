@@ -7,9 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "first.last@example.com")
 Description: What the package does (one paragraph).
-License: 
-    Copyright (C) Economic Opportunity Project - All Rights Reserved
-    Propietary and Confidential
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -22,6 +20,7 @@ Imports:
     stats,
     stringr,
     glue,
-    tibble
+    tibble, 
+    zoo
 Depends: 
     R (>= 2.10)

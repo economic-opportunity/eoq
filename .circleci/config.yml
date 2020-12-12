@@ -33,7 +33,7 @@ jobs:
           command: R CMD build .
       - run:
           name: Check package
-          command: R -e 'devtools::check(manual = FALSE)'
+          command: R -e 'devtools::check(manual = FALSE, document = FALSE)'
       # - save_cache:
       #     key: r-pkg-cache-{{ .Branch }}-{{ checksum "DESCRIPTION" }}
       #     paths:
