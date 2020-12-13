@@ -7,7 +7,7 @@ jobs:
     docker:
       - image: rocker/shiny-verse:latest
         auth:
-          username: seamusmckinsey
+          username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASSWORD
     environment:
       R_LIBS: ~/R/Library

@@ -18,6 +18,8 @@ tibble
 Convert race / ethnicity to standard set
 }
 \examples{
+\dontrun{
 eoq::sample_cps \%>\% clean_race_ethnicity(racehispanic)
 eoq::sample_acs \%>\% clean_race_ethnicity(racehispanic)
+}
 }

@@ -1,16 +1,17 @@
 
 # functions ---------------------------------------------------------------
 
-#' Title
+#' get census tidy version
 #'
 #' @param ... 
 #'
 #' @return
 #' @export
-#'
+#' @importFrom tibble as_tibble
+#' @importFrom censusapi getCensus
 #' @examples
 tidy_get_census <- function(...) {
-  getCensus(
+  censusapi::getCensus(
     ...
   ) %>% 
     as_tibble()
@@ -25,7 +26,7 @@ tidy_get_census <- function(...) {
 #'
 #' @return
 #' @export
-#'
+#' @importFrom dplyr mutate
 #' @examples
 as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
   df %>% 
@@ -36,7 +37,7 @@ as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
 }
 
 
-#' Title
+#' Get QWI metrics
 #'
 #' @param name 
 #' @param vars 
@@ -50,10 +51,11 @@ as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
 #'
 #' @examples
 get_qwi_metrics <- function(name = "timeseries/qwi/se", 
-                            vars = c(qwi_numeric_variables, "education"), 
+                            vars = c("Emp", "HirA", "HirAEndR", "SepBeg", "SepBegR", "EarnHirNS", "EarnS", "education", "sex"), 
                             region = "county:*", 
                             regionin = "state:06",
-                            time = "from 2000 to 2018", ...) {
+                            time = "from 2018 to 2022", ...) {
+  
   tidy_get_census(
     name = name,
     vars = vars,
@@ -64,16 +66,14 @@ get_qwi_metrics <- function(name = "timeseries/qwi/se",
   )
 }
 
-#' Title
+#' Safely get QWI metrics
 #'
 #' @param ... 
 #'
 #' @return
+#' @importFrom purrr safely
 #' @export
-#'
 #' @examples
-safely_get_qwi_metrics <- function(...){
-  purrr::safely(get_qwi_metrics(...)) 
-}
+safely_get_qwi_metrics <- purrr::safely(get_qwi_metrics)
 
 
