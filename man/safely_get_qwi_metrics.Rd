@@ -7,7 +7,7 @@
 safely_get_qwi_metrics(...)
 }
 \arguments{
-\item{...}{}
+\item{...}{fields to pass to get_qwi_metrics}
 }
 \value{
 

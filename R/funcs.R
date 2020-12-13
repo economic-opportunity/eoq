@@ -3,13 +3,12 @@
 
 #' get census tidy version
 #'
-#' @param ... 
+#' @param ... fields to pass to censusapi::getCensus
 #'
 #' @return
 #' @export
 #' @importFrom tibble as_tibble
 #' @importFrom censusapi getCensus
-#' @examples
 tidy_get_census <- function(...) {
   censusapi::getCensus(
     ...
@@ -17,18 +16,16 @@ tidy_get_census <- function(...) {
     as_tibble()
 }
 
-#' Title
+#' Turn year quarter into date data
 #'
-#' @param df 
-#' @param variable 
-#' @param format 
-#' @param ... 
+#' @param df dataframe
+#' @param variable field with data in format "2020-Q1"
+#' @param format format to put date into
 #'
 #' @return
 #' @export
 #' @importFrom dplyr mutate
-#' @examples
-as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
+as_date_year_qtr <- function(df, variable, format = "%Y-Q%q") {
   df %>% 
     mutate( 
       year_qtr  = zoo::as.yearqtr({{variable}}, format = format),
@@ -39,17 +36,16 @@ as_date_year_qtr <- function(df, variable, format = "%Y-Q%q", ...) {
 
 #' Get QWI metrics
 #'
-#' @param name 
-#' @param vars 
-#' @param region 
-#' @param regionin 
-#' @param time 
-#' @param ... 
+#' @param name name of census api
+#' @param vars vars to select from api
+#' @param region the level of geo (state, county)
+#' @param regionin limiting the region to explore
+#' @param time the time period for data
+#' @param ... addtional arguments passed to tidy_get_census
 #'
 #' @return
 #' @export
 #'
-#' @examples
 get_qwi_metrics <- function(name = "timeseries/qwi/se", 
                             vars = c("Emp", "HirA", "HirAEndR", "SepBeg", "SepBegR", "EarnHirNS", "EarnS", "education", "sex"), 
                             region = "county:*", 
@@ -68,12 +64,10 @@ get_qwi_metrics <- function(name = "timeseries/qwi/se",
 
 #' Safely get QWI metrics
 #'
-#' @param ... 
-#'
+#' @param ... fields to pass to get_qwi_metrics
 #' @return
 #' @importFrom purrr safely
 #' @export
-#' @examples
 safely_get_qwi_metrics <- purrr::safely(get_qwi_metrics)
 
 

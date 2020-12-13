@@ -2,22 +2,20 @@
 % Please edit documentation in R/funcs.R
 \name{as_date_year_qtr}
 \alias{as_date_year_qtr}
-\title{Title}
+\title{Turn year quarter into date data}
 \usage{
-as_date_year_qtr(df, variable, format = "\%Y-Q\%q", ...)
+as_date_year_qtr(df, variable, format = "\%Y-Q\%q")
 }
 \arguments{
-\item{df}{}
+\item{df}{dataframe}
 
-\item{variable}{}
+\item{variable}{field with data in format "2020-Q1"}
 
-\item{format}{}
-
-\item{...}{}
+\item{format}{format to put date into}
 }
 \value{
 
 }
 \description{
-Title
+Turn year quarter into date data
 }

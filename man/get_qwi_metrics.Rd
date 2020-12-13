@@ -6,7 +6,8 @@
 \usage{
 get_qwi_metrics(
   name = "timeseries/qwi/se",
-  vars = c(qwi_numeric_variables, "education"),
+  vars = c("Emp", "HirA", "HirAEndR", "SepBeg", "SepBegR", "EarnHirNS", "EarnS",
+    "education", "sex"),
   region = "county:*",
   regionin = "state:06",
   time = "from 2018 to 2022",
@@ -14,17 +15,17 @@ get_qwi_metrics(
 )
 }
 \arguments{
-\item{name}{}
+\item{name}{name of census api}
 
-\item{vars}{}
+\item{vars}{vars to select from api}
 
-\item{region}{}
+\item{region}{the level of geo (state, county)}
 
-\item{regionin}{}
+\item{regionin}{limiting the region to explore}
 
-\item{time}{}
+\item{time}{the time period for data}
 
-\item{...}{}
+\item{...}{addtional arguments passed to tidy_get_census}
 }
 \value{
 

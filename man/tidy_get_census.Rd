@@ -7,7 +7,7 @@
 tidy_get_census(...)
 }
 \arguments{
-\item{...}{}
+\item{...}{fields to pass to censusapi::getCensus}
 }
 \value{
 
