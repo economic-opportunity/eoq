@@ -6,11 +6,10 @@
 \usage{
 get_qwi_metrics(
   name = "timeseries/qwi/se",
-  vars = c("Emp", "HirA", "HirAEndR", "SepBeg", "SepBegR", "EarnHirNS", "EarnS",
-    "education", "sex"),
+  vars = c("Emp", "HirA", "HirAEndR", "SepBeg", "SepBegR", "EarnHirNS", "EarnS"),
   region = "county:*",
   regionin = "state:06",
-  time = "from 2018 to 2022",
+  time = "from 2019 to 2022",
   ...
 )
 }
