@@ -47,10 +47,18 @@ as_date_year_qtr <- function(df, variable, format = "%Y-Q%q") {
 #' @export
 #'
 get_qwi_metrics <- function(name = "timeseries/qwi/se", 
-                            vars = c("Emp", "HirA", "HirAEndR", "SepBeg", "SepBegR", "EarnHirNS", "EarnS", "education", "sex"), 
+                            vars = c("Emp", "HirA", "HirAEndR", "SepBeg", "SepBegR", "EarnHirNS", "EarnS"), 
                             region = "county:*", 
                             regionin = "state:06",
-                            time = "from 2018 to 2022", ...) {
+                            time = "from 2019 to 2022", ...) {
+  
+  if (name == "timeseries/qwi/se"){
+    vars = c(vars, c("education", "sex"))
+  } else if (name == "timeseries/qwi/sa"){
+    vars = c(vars, c("sex", "agegrp"))
+  } else if (name == "timeseries/qwi/rh") {
+    vars = c(vars, c("race", "ethnicity"))
+  }
   
   tidy_get_census(
     name = name,
@@ -68,6 +76,6 @@ get_qwi_metrics <- function(name = "timeseries/qwi/se",
 #' @return
 #' @importFrom purrr safely
 #' @export
-safely_get_qwi_metrics <- purrr::safely(get_qwi_metrics)
+safely_get_qwi_metrics <- safely(get_qwi_metrics)
 
 

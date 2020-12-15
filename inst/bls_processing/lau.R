@@ -151,3 +151,24 @@ lau_series_final$area_code <- NULL
 # # write to csv
 # readr::write_csv(lau_series_final,
 #                  '../outputs/lau_15-20.csv')
+
+############################################-
+# Section 3: Write smaller dataset to csv
+############################################-
+
+lau_series_final %>% 
+  # convert month name to number
+  mutate(month_no = match(period_name, month.name)) %>% 
+  filter(
+    # filter to the latest year 
+    year == max(year),
+    # filter to unemployment rate
+    measure == "unemployment rate",
+    # filter to county fips
+    !is.na(fips)
+    ) %>% 
+  filter( 
+    #filter to max month in the max year 
+    month_no == max(month_no)
+    ) %>% 
+  write_csv('../outputs/lau_unemp_max_month.csv')
