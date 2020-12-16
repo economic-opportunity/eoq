@@ -144,6 +144,19 @@ clean_employment <- function(data, var) {
 
 }
 
+#' Clean sex variable
+#'
+#' @param data a tibble
+#' @param var an is_male variable
+#'
+#' @return a tibble
+#' @export
+#'
+clean_sex <- function(data, var) {
+  data %>% 
+    mutate(sex = ifelse(is_male == 1, "Male", "Female"))
+}
+
 #' Process cleaned ACS/CPS data for shiny app
 #'
 #' @param data tibble
