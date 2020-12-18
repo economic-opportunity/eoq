@@ -128,3 +128,15 @@ bd_data_final <- dplyr::select(bd_data_3,
 # readr::write_csv(bd_data_final,
 #                  '../outputs/bd_1992_2020.csv')
   
+
+
+# plots ---------------------#
+
+# plot an occupation
+ggplot(data = filter(bd_data_final, (industry %in% 'Computer and electronic product manufacturing') &
+                     (data_class %in% 'Gross Job Gains') & (data_element %in% 'Employment')
+                     & (rate_level %in% 'Level') & (seasonal %in% 'Seasonally adjusted') &
+                       (state %in% 'U.S. totals')),
+       aes(x = year, y = value)) +
+  geom_line() +
+  geom_point()
