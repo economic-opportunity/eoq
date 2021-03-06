@@ -12,22 +12,29 @@ library(eoq)
 
 source("inst/analysis/data/input/datapasta_tribbles.R")
 
+county_fips <- read_csv("https://www.dropbox.com/s/k9byai70ax6gtte/county_fips.csv?dl=1") %>% 
+  transmute(full_fips = str_pad(fips, 5, "left", "0"),
+            county_fips = substr(fips, start = 3, stop = 5),
+            state_fips = substr(fips, start = 1, stop = 2),
+            state_abb = state,
+            county_name = county)
+
 # apis --------------------------------------------------------------------
 
 
 df_list_se <- list()
 
-for (i in seq_along(state_fips$fips)){
+for (i in seq_along(state_fips$fips[2])){
   
   # Print intial collection status
   print(glue::glue("Collecting data for {x}", x = state_fips$fips[[i]]))
-  # 1 second break b/t calls for responsible api usage
   
   df_list_se[[i]] <- safely_get_qwi_metrics(regionin = str_c("state:", state_fips$fips[[i]]))
   
   # Print finished status
   print(glue::glue("Finished collecting data for {x}", x = state_fips$fips[[i]]))
   
+  # 1 second break b/t calls for responsible api usage
   Sys.sleep(1)
   
 }
@@ -80,7 +87,7 @@ write_csv(results_sa, "~/Dropbox/Economic Opportunity Project/Data/QWI/Outputs/q
 
 df_list_rh <- list()
 
-for (i in seq_along(state_fips$fips)){
+for (i in seq_along(state_fips$fips[1])){
   # Print intial collection statu
   print(glue::glue("Collecting data for {x}", x = state_fips$fips[[i]]))
   # 1 second break b/t calls for responsible api usage
