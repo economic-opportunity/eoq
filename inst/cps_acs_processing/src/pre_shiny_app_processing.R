@@ -98,10 +98,6 @@ cps_fips_soc_naics <- cps %>%
             emp_n = sum(!is.na(employmentstatus))) %>% 
   ungroup()
 
-
-
-
-
 # actual important ones ---------------------------------------------------
 
 acs_wage <- acs %>%

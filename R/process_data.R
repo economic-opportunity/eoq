@@ -144,6 +144,21 @@ clean_employment <- function(data, var) {
   
 }
 
+#' Clean sex variable
+#'
+#' @param data a tibble
+#' @param var an is_male variable
+#'
+#' @return a tibble
+#' @export
+#'
+clean_sex <- function(data, var) {
+  data %>% 
+    mutate(sex = ifelse({{ var }} == 1, "Male", "Female"))
+}
+
+
+
 #' Process cleaned ACS/CPS data for shiny app
 #'
 #' @param data tibble
@@ -170,8 +185,17 @@ process_comp_data <- function(data, input) {
   
 }
 
+#' Process individual data
+#'
+#' @param data a tibble
+#' @param input input from shiny
+#'
+#' @return tibble
+#' @export
+#'
 process_individual_data <- function(data, input) {
   data %>%
+    clean_sex(is_male) %>% 
     mutate(
       sex = if_else(is_male == 1, "Male", "Female"),
       age_bucket = age_group,
@@ -219,5 +243,6 @@ calc_unemployment_rate <- function(data, var, ..., na.rm = TRUE) {
   }
   
 }
+
 
 
