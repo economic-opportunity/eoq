@@ -19,11 +19,11 @@ test_that("make_percentiles calculates mean properly", {
 
 test_that("age_buckets returns 6 buckets", {
   expect_equal(
-    tibble::tibble(x = seq.int(10, 60, 10)) %>%
+    tibble::tibble(x = seq.int(20, 70, 10)) %>%
       make_age_buckets(x) %>%
       dplyr::pull(age_bucket),
-    c("Under 20", "20-29", "30-39",
-      "40-49", "50-59", "Over 60")
+    c("Under 25", "25-34", "35-44",
+      "45-54", "55-64", "Over 65")
   )
 })
 

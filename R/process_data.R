@@ -157,8 +157,6 @@ clean_sex <- function(data, var) {
     mutate(sex = ifelse({{ var }} == 1, "Male", "Female"))
 }
 
-
-
 #' Process cleaned ACS/CPS data for shiny app
 #'
 #' @param data tibble
@@ -197,7 +195,6 @@ process_individual_data <- function(data, input) {
   data %>%
     clean_sex(is_male) %>% 
     mutate(
-      sex = if_else(is_male == 1, "Male", "Female"),
       age_bucket = age_group,
       industry = naics_2digit_label
     ) %>%
